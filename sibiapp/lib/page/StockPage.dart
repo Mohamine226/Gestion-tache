@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sibiapp/page/GererStock.dart';
 import 'package:sibiapp/page/ImagePlein.dart';
+import 'package:sibiapp/page/MagasinPage.dart';
 import 'package:sibiapp/page/VoirToutRupture.dart';
 
 class StockPage extends StatefulWidget {
@@ -15,13 +17,18 @@ class _StockPageState extends State<StockPage> {
     "totalProduits": 84,
     "produitsDefaut": 9,
     "stocksRupture": [
-      {"produit": "Coca-Cola", "quantite": 2, "prix": "500 CFA", "image": "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
+      {"produit": "Coca-Cola", "quantite": 2, "prix": "500 CFA",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
       {"produit": "Riz 5kg", "quantite": 1, "prix": "3 000 CFA", "image":""},
-      {"produit": "Savon Lux", "quantite": 0, "prix": "1 200 CFA", "image": "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
-      {"produit": "Tomates", "quantite": 8, "prix": "2 000 CFA", "image": "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
-      {"produit": "T-shirt Bleu", "quantite": 12, "prix": "12 000 CFA", "image": "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
+      {"produit": "Savon Lux", "quantite": 0, "prix": "1 200 CFA",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
+      {"produit": "Tomates", "quantite": 8, "prix": "2 000 CFA",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
+      {"produit": "T-shirt Bleu", "quantite": 12, "prix": "12 000 CFA",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
       {"produit": "Pain", "quantite": 15, "prix": "2 500 CFA", "image":""},
-      {"produit": "T-shirt Bleu", "quantite": 12, "prix": "12 000 CFA", "image": "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
+      {"produit": "T-shirt Bleu", "quantite": 12, "prix": "12 000 CFA",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
       {"produit": "Pain", "quantite": 5, "prix": "2 500 CFA", "image":""},
     ]
   };
@@ -48,7 +55,7 @@ class _StockPageState extends State<StockPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 🔵 Carte Produits en stock
+            //  Carte Produits en stock
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -103,7 +110,10 @@ class _StockPageState extends State<StockPage> {
                       IconButton(
                         icon: const Icon(Icons.chevron_right, color: Colors.white),
                         onPressed: () {
-                          // action quand on clique sur >
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const MagasinPage()),
+                          );
                         },
                       ),
                     ],
@@ -184,10 +194,15 @@ class _StockPageState extends State<StockPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const GererStock()),
+                  );
+                },
                 icon: const Icon(Icons.add),
                 label: const Text(
-                  "Ajouter un Produit",
+                  "Gérer le Stock",
                   style: TextStyle(fontSize: 16),
                 ),
               ),

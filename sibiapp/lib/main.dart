@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sibiapp/page/Caisse.dart';
 import 'package:sibiapp/page/HomePage.dart';
 import 'package:sibiapp/page/StatsPage.dart';
 import 'package:sibiapp/page/StockPage.dart';
@@ -38,6 +39,7 @@ class _MainNavigationState extends State<MainNavigation> {
     HomePage(),
     VentesPage(),
     StockPage(),
+    CaissePage(),
     StatsPage(),
   ];
 
@@ -49,10 +51,13 @@ class _MainNavigationState extends State<MainNavigation> {
         currentIndex: _index,
         onTap: (i) => setState(() => _index = i),
         type: BottomNavigationBarType.fixed,
+        unselectedItemColor: Colors.black54,
+        selectedItemColor: Colors.blue,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Accueil"),
           BottomNavigationBarItem(icon: Icon(Icons.receipt), label: "Ventes"),
           BottomNavigationBarItem(icon: Icon(Icons.inventory), label: "Stocks"),
+          BottomNavigationBarItem(icon: Icon(Icons.attach_money), label: "Caisse"),
           BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: "Stats"),
         ],
       ),

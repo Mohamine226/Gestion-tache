@@ -38,7 +38,7 @@ class _VoirToutRuptureState extends State<VoirToutRupture> {
             });
           },
         )
-            : const Text("Tous les produits en rupture"),
+            : const Text("Produits en rupture"),
         actions: [
           IconButton(
             icon: Icon(showSearch ? Icons.close : Icons.search),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sibiapp/page/ImagePlein.dart';
-import 'package:sibiapp/page/VoirTodayVentes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,29 +11,29 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // --- Données fictives ---
   final Map<String, dynamic> dashboardData = {
-    "ventesJour": 82500,
+    "nombreDepot": 82500,
     "nombreVentes": 10000,
-    "totalMois": 540000,
+    "nombreRetrait": 540000,
+    "soldeJour": 1000000,
     "stocks": [
       {"produit": "Savon Lux", "quantite": 0, "image": ""},
-      {"produit": "Coca-Cola", "quantite": 2,
-        "image": "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
+      {
+        "produit": "Coca-Cola",
+        "quantite": 2,
+        "image":
+        "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"
+      },
       {"produit": "Riz 5kg", "quantite": 100, "image": ""},
+      {"produit": "Pomades", "quantite": 800, "image": ""},
     ],
-    "ventesRecentes": [
-      {"produit": "Pain x 3", "prix": "1 500 CFA", "heure": "09:45",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
-      {"produit": "Tomates x 5", "prix": "2 000 CFA", "heure": "09:45",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg"},
-      {"produit": "Lait x 2", "prix": "1 800 CFA", "heure": "09:15", "image": ""},
-    ]
   };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Accueil",
+        title: const Text(
+          "Accueil",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -51,106 +50,77 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(5),
         child: Column(
           children: [
-            // --- Cartes statistiques ---
+
             Row(
               children: [
                 _infoCard(
                   Icons.attach_money,
-                  "Total du jour",
-                  "${dashboardData['ventesJour']} CFA",
+                  "Solde d'aujourd'hui",
+                  "${dashboardData['soldeJour']} CFA",
+                  Colors.orange,
+                ),
+                _infoCard(
+                  Icons.shopping_cart_rounded,
+                  "Ventes d'aujourd'hui:",
+                  "${dashboardData['nombreVentes']} Produits",
+                  Colors.blue,
+                ),
+              ],
+            ),
+            const SizedBox(height: 15),
+            // --- Cartes statistiques ---
+            Row(
+              children: [
+                _infoCard(
+                  Icons.arrow_downward,
+                  "Nombres de dépot",
+                  "${dashboardData['nombreDepot']}",
                   Colors.green,
                 ),
                 _infoCard(
                   Icons.shopping_cart_rounded,
                   "Produits ventes:",
                   "${dashboardData['nombreVentes']} ",
-                  Colors.blue,
+                  Colors.green,
                 ),
                 _infoCard(
-                  Icons.bar_chart,
-                  "Total du Mois",
-                  "${dashboardData['totalMois']} CFA",
-                  Colors.orange,
+                  Icons.arrow_upward,
+                  "Nombre de retrait",
+                  "${dashboardData['nombreRetrait']}",
+                  Colors.green,
                 ),
               ],
             ),
 
+
+
+
+
             const SizedBox(height: 5),
 
-            // --- Alertes stock ---
+            // --- Alertes stock avec bordure ---
             Expanded(
               flex: 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Alertes Stock Faible",
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 0),
-                  Expanded(
-                    child: dashboardData['stocks'].isEmpty
-                        ? const Center(
-                      child: Text(
-                        "Aucun produit",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontStyle: FontStyle.italic,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    )
-                        :  ListView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: dashboardData['stocks']
-                          .map<Widget>((stock) =>
-                          _stockAlert(
-                              stock['produit'],
-                              stock['quantite'],
-                              stock['image']))
-                          .toList(),
-                    ),
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 35,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      onPressed: () {},
-                      child: const Text("Gérer le Stock"),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 8),
-
-            // --- Dernières ventes ---
-            Expanded(
-              flex: 3,
-              child: Card(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey.shade400, width: 1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.all(8),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Text(
-                        "Dernières ventes",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
+                    const Text(
+                      "Alertes Stock Faible",
+                      style:
+                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
+                    const SizedBox(height: 5),
                     Expanded(
-                      child: dashboardData['ventesRecentes'].isEmpty
+                      child: dashboardData['stocks'].isEmpty
                           ? const Center(
                         child: Text(
-                          "Aucun produit vendu",
+                          "Aucun produit",
                           style: TextStyle(
                             fontSize: 14,
                             fontStyle: FontStyle.italic,
@@ -160,40 +130,25 @@ class _HomePageState extends State<HomePage> {
                       )
                           : ListView(
                         physics: const NeverScrollableScrollPhysics(),
-                        children: dashboardData['ventesRecentes']
-                            .map<Widget>((vente) => _saleItem(
-                            vente['produit'],
-                            vente['prix'],
-                            vente['heure'],
-                            vente['image']))
+                        children: dashboardData['stocks']
+                            .map<Widget>((stock) => _stockAlert(
+                            stock['produit'],
+                            stock['quantite'],
+                            stock['image']))
                             .toList(),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => VoirTout(
-                              ventes: List<Map<String, dynamic>>.from(
-                                  dashboardData['ventesRecentes']),
-                            ),
-                          ),
-                        );
-                      },
-                      child: const Text("Voir tout"),
                     ),
                   ],
                 ),
               ),
             ),
 
-            const SizedBox(height: 8),
+            const SizedBox(height: 20),
 
             // --- Bouton ajouter vente ---
             SizedBox(
               width: double.infinity,
-              height: 35,
+              height: 50,
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
@@ -209,6 +164,43 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+
+            const SizedBox(height: 20),
+
+            // --- Boutons Dépôt et Retrait côte à côte ---
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    onPressed: () {},
+                    icon: const Icon(Icons.arrow_downward),
+                    label: const Text("Dépôt"),
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    onPressed: () {},
+                    icon: const Icon(Icons.arrow_upward),
+                    label: const Text("Retrait"),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 10,)
           ],
         ),
       ),
@@ -216,8 +208,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   // --- Carte statistique ---
-  Widget _infoCard(
-      IconData icon, String title, String value, Color color) {
+  Widget _infoCard(IconData icon, String title, String value, Color color) {
     return Expanded(
       child: Container(
         height: 90,
@@ -226,6 +217,7 @@ class _HomePageState extends State<HomePage> {
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(12),
+
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,20 +226,18 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Icon(icon, color: Colors.white, size: 24),
                 const SizedBox(width: 1),
-                Expanded( // permet au texte de prendre l'espace restant
+                Expanded(
                   child: Text(
                     title,
                     style: const TextStyle(color: Colors.white, fontSize: 11),
-                    overflow: TextOverflow.ellipsis, // coupe avec "..."
-                    maxLines: 2,                     // reste sur une seule ligne
-                    softWrap: true,                 // interdit le retour à la ligne
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    softWrap: true,
                   ),
                 ),
               ],
             ),
-
             const Divider(color: Colors.white, thickness: 0),
-
             Text(
               value,
               style: const TextStyle(
@@ -288,8 +278,6 @@ class _HomePageState extends State<HomePage> {
 
     return ListTile(
       dense: true,
-
-      /// 🖼️ IMAGE PRODUIT À GAUCHE
       leading: (imageUrl != null && imageUrl.isNotEmpty)
           ? GestureDetector(
         onTap: () {
@@ -307,8 +295,6 @@ class _HomePageState extends State<HomePage> {
         ),
       )
           : const Icon(Icons.inventory, color: Colors.blue, size: 25),
-
-      /// 📝 TEXTE AU CENTRE
       title: Text(
         produit,
         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
@@ -317,40 +303,7 @@ class _HomePageState extends State<HomePage> {
         message,
         style: const TextStyle(fontSize: 12),
       ),
-
-      /// ⚠️ ICÔNE D’ALERTE À DROITE
       trailing: Icon(icon, color: color),
-    );
-  }
-
-
-  // --- Vente ---
-  Widget _saleItem(String produit, String prix, String heure, String? imageUrl) {
-    return ListTile(
-      dense: true,
-      leading: (imageUrl != null && imageUrl.isNotEmpty)
-          ? GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => ImagePlein(imageUrl: imageUrl),
-            ),
-          );
-        },
-        child: CircleAvatar(
-          radius: 18,
-          backgroundColor: Colors.grey.shade200,
-          backgroundImage: NetworkImage(imageUrl),
-        ),
-      )
-          : const Icon(Icons.shopping_cart_rounded, color: Colors.blue),
-
-      title: Text(produit, style: const TextStyle(fontSize: 14)),
-      trailing: Text(
-        "$prix • $heure",
-        style: const TextStyle(fontSize: 13),
-      ),
     );
   }
 }
